@@ -12,6 +12,7 @@ namespace ReadApp.Views
             
             this.InitializeComponent();
             Logic.PropertyChanged += Logic_PropertyChanged;
+            VisualStateManager.GoToState(this, Logic.LoadingState.ToString(), true);
         }
 
 

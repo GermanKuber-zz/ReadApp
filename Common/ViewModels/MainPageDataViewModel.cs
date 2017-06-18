@@ -142,16 +142,16 @@ namespace Common.ViewModels
         {
             get
             {
-                if (_addNoticeToCommand == null)
+                if (_sendEmailCommand == null)
                 {
-                    _addNoticeToCommand = new CommandHandler((async (obj) =>
+                    _sendEmailCommand = new CommandHandler((async (obj) =>
                     {
                         await MainPageDateService.SendEmailAsync((EventModel)obj,SelectedRead.Email);
                     }));
                 }
-                return _addNoticeToCommand;
+                return _sendEmailCommand;
             }
-            set { _addNoticeToCommand = value; }
+            set { _sendEmailCommand = value; }
         }
 
         public ICommand SwitchMenuCommand
@@ -186,6 +186,7 @@ namespace Common.ViewModels
         private string _filter;
 
         private ICommand _addNoticeToCommand;
+        private ICommand _sendEmailCommand;
 
         private LoadingStates _loadingState = LoadingStates.Loading;
         private bool _openMenu;
@@ -199,6 +200,10 @@ namespace Common.ViewModels
 
         public MainPageDataViewModel()
         {
+            this.Title = Welcome;
+            this.Configurations = new ConfigurationsViewModel();
+            this.LoadingState = LoadingStates.Loading;
+
             ReadModels = new ObservableCollection<CommunityModel>();
             //Genero data
             if (DesignMode.DesignModeEnabled)
@@ -206,9 +211,7 @@ namespace Common.ViewModels
             else
                 LoadData();
 
-            this.Title = Welcome;
-            this.Configurations = new ConfigurationsViewModel();
-            this.LoadingState = LoadingStates.Loading;
+            
 
         }
 

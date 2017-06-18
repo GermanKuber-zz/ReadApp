@@ -32,8 +32,6 @@ namespace BackgroundServices
         {
             try
             {
-
-
                 ReadRepository ReadRepository = new ReadRepository();
                 var events = await ReadRepository.GetNextEvents();
                 if (events == null && events.Count > 0)
@@ -42,7 +40,6 @@ namespace BackgroundServices
                 ToastNotifier notifier = ToastNotificationManager.CreateToastNotifier();
                 XmlDocument content = ToastNotificationManager.GetTemplateContent(
                         ToastTemplateType.ToastImageAndText01);
-
 
                 var texts = content.GetElementsByTagName("text");
 

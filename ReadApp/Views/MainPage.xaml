@@ -6,15 +6,18 @@
     xmlns:viewModels="using:Common.ViewModels"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Behavior="using:ReadApp.Behavior"
     x:Class="ReadApp.Views.MainPage"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d" RequestedTheme="{Binding Configurations.Theme, Mode=TwoWay}" Background="#FF434343" NavigationCacheMode="Enabled">
 
     <Page.Resources>
+        <!--Teamplate que se utiliza para mostrar la lista de comunidades-->
         <DataTemplate x:Key="RememberModelTemplate">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding Name, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <TextBlock Text="{Binding Last, Mode=OneWay}" Margin="15,0,0,0"/>
             </StackPanel>
         </DataTemplate>
+        <!--Template que se utiliza para mostrar la lista de eventos-->
         <DataTemplate x:Key="ReadEventsTemplate">
             <Grid BorderThickness="0" HorizontalAlignment="Left">
                 <Grid Margin="0,10,25,0" UseLayoutRounding="False" d:LayoutOverrides="Width, Height" MaxWidth="1150" HorizontalAlignment="Left">
@@ -40,14 +43,20 @@
         </DataTemplate>
     </Page.Resources>
     <Page.BottomAppBar>
+        <!--Barra donde se muestran las opciones de mostrar menu y de configuración-->
         <CommandBar x:Name="commandBar" Margin="0,17,0,0" RenderTransformOrigin="0.5,0.5" >
+            <CommandBar.RenderTransform>
+                <CompositeTransform TranslateY="45"/>
+            </CommandBar.RenderTransform>
+            <!--<CommandBar.Projection>
+                <PlaneProjection GlobalOffsetY="45"/>
+            </CommandBar.Projection>-->
             <CommandBar.SecondaryCommands>
                 <AppBarToggleButton x:Name="appBarToggleButton" Label="Notificaciones" IsChecked="{Binding Configurations.NotificationsEnabled, Mode=TwoWay}" DataContext="{Binding}"/>
                 <AppBarToggleButton x:Name="appBarToggleButton1" Label="Live" IsChecked="{Binding Configurations.LiveTileEnabled, Mode=TwoWay}" DataContext="{Binding}"/>
                 <AppBarToggleButton x:Name="appBarToggleButton2" Label="Dark Theme" IsChecked="{Binding Configurations.DarkTheme, Mode=TwoWay}" DataContext="{Binding}"/>
                 <AppBarSeparator/>
                 <AppBarButton x:Name="appBarButton" Label="About" Click="appBarButton_Click"/>
-
             </CommandBar.SecondaryCommands>
             <CommandBar.Content>
                 <Grid/>
@@ -66,6 +75,90 @@
 
 
     <Grid x:Name="GridContext" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="LoadingState">
+                <VisualState x:Name="Loading">
+                    <Storyboard>
+                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="stackPanel1" d:IsOptimized="True"/>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Loaded">
+                    <Storyboard>
+                        <DoubleAnimation Duration="0:0:1" To="-550" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetY)" Storyboard.TargetName="textBlock1" d:IsOptimized="True">
+                            <DoubleAnimation.EasingFunction>
+                                <BackEase Amplitude="0.2" EasingMode="EaseIn"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Duration="0:0:0.494" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="progressBar" d:IsOptimized="True"/>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(ProgressBar.IsIndeterminate)" Storyboard.TargetName="progressBar">
+                            <DiscreteObjectKeyFrame KeyTime="0:0:0.494">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <x:Boolean>False</x:Boolean>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <DoubleAnimation Duration="0:0:1" To="0.4" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="textBlock1" d:IsOptimized="True"/>
+                        <DoubleAnimation Duration="0:0:1" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="grid" d:IsOptimized="True"/>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="grid">
+                            <DiscreteObjectKeyFrame KeyTime="0:0:1">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Canvas.ZIndex)" Storyboard.TargetName="grid">
+                            <DiscreteObjectKeyFrame KeyTime="0:0:1">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <x:Int32>0</x:Int32>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <DoubleAnimation Duration="0:0:1" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="commandBar" d:IsOptimized="True">
+                            <DoubleAnimation.EasingFunction>
+                                <CircleEase EasingMode="EaseOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Error">
+                    <VisualState.Setters>
+                        <Setter Target="textBlock1.(TextBlock.FontWeight)">
+                            <Setter.Value>
+                                <FontWeight>Bold</FontWeight>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Target="textBlock1.(TextBlock.Text)" Value="Ocurrio un Error!!"/>
+                    </VisualState.Setters>
+                    <Storyboard>
+                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="stackPanel1" d:IsOptimized="True"/>
+                        <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="progressBar" d:IsOptimized="True"/>
+                        <ColorAnimation Duration="0" To="#FF931616" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="textBlock1" d:IsOptimized="True"/>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="ScrenStates">
+                <VisualState x:Name="Big">
+                    <VisualState.Setters>
+                        <Setter Target="splitView.(SplitView.IsPaneOpen)" Value="True"/>
+                        <Setter Target="splitView.(SplitView.DisplayMode)" Value="Inline"/>
+                        <Setter Target="appBarButton1.(UIElement.Visibility)" Value="Collapsed"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1150"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Small">
+                    <VisualState.Setters>
+                        <Setter Target="splitView.(SplitView.DisplayMode)" Value="Overlay"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <SplitView x:Name="splitView" BorderThickness="0" Grid.ColumnSpan="2" DisplayMode="Inline" IsPaneOpen="{Binding OpenMenu, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <SplitView.Pane>
                 <Grid>
@@ -92,21 +185,25 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal"  >
-                    <Ellipse  x:Name="Imangen" Margin="20 20 20 20" Stroke="Black" d:LayoutOverrides="TopPosition, BottomPosition" HorizontalAlignment="Right" Width="150" Height="150" >
+                <Grid Grid.Row="0" Grid.Column="0"   >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200px"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Ellipse  Grid.Column="0" x:Name="Imangen" Margin="20 20 20 20" Stroke="Black" d:LayoutOverrides="TopPosition, BottomPosition" HorizontalAlignment="Right" Width="150" Height="150" >
                         <Ellipse.Fill>
                             <ImageBrush Stretch="Fill" ImageSource="{Binding SelectedRead.Picture}"/>
                         </Ellipse.Fill>
                     </Ellipse>
-                    <StackPanel  Orientation="Vertical"   VerticalAlignment="Center" Margin="0 30 0 0"  >
+                    <StackPanel Grid.Column="1"   VerticalAlignment="Center" Margin="0 30 0 0"  >
                         <TextBlock Text="Descripción"  TextWrapping="Wrap" ></TextBlock>
-                        <TextBlock Text="{Binding SelectedRead.Description}" TextWrapping="Wrap" MaxWidth="600"></TextBlock>
-                       
+                        <TextBlock Text="{Binding SelectedRead.Description}" TextWrapping="Wrap" ></TextBlock>
 
+                        
                     </StackPanel>
-                </StackPanel >
-              
-   
+                </Grid >
+
+
                 <ScrollViewer x:Name="scrollViewer" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,-0.333,0,0" d:LayoutOverrides="TopPosition, BottomPosition">
                     <ItemsControl ItemTemplate="{StaticResource ReadEventsTemplate}" ItemsSource="{Binding SelectedRead.Events}">
                         <ItemsControl.ItemContainerTransitions>
@@ -119,7 +216,16 @@
                 <Grid Grid.RowSpan="2"/>
             </Grid>
         </SplitView>
-
+        <Grid x:Name="grid" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition" Grid.ColumnSpan="2" Background="#FF2E2E2E" Opacity="0.9" Canvas.ZIndex="1" d:IsHidden="True">
+            <StackPanel x:Name="stackPanel1" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center">
+                <TextBlock x:Name="textBlock1" Style="{StaticResource HeaderTextBlockStyle}" TextWrapping="Wrap" Text="Cargando ...">
+                    <TextBlock.Projection>
+                        <PlaneProjection/>
+                    </TextBlock.Projection>
+                </TextBlock>
+                <ProgressBar x:Name="progressBar" Height="10" VerticalAlignment="Stretch" IsIndeterminate="True" Margin="0,8,0,0" FontSize="22"/>
+            </StackPanel>
+        </Grid>
 
 
     </Grid>

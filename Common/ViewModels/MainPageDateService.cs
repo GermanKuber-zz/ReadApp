@@ -43,8 +43,7 @@ namespace Common.ViewModels
             appointment.BusyStatus = AppointmentBusyStatus.Free;
             var dateThisYear = new DateTime(
                 DateTime.Now.Year, notice.Date.Month, notice.Date.Day);
-            appointment.StartTime =
-                dateThisYear < DateTime.Now ? dateThisYear.AddYears(1) : dateThisYear;
+            appointment.StartTime = dateThisYear;
 
             await AppointmentManager.ShowEditNewAppointmentAsync(appointment);
         }
