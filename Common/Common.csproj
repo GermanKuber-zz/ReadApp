@@ -114,7 +114,7 @@
     <Compile Include="Models\Notice.cs" />
     <Compile Include="Models\ReadModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositorys\ReadResitory.cs" />
+    <Compile Include="Repositories\ReadResitory.cs" />
     <Compile Include="ViewModels\ConfigurationsViewModel.cs" />
     <Compile Include="ViewModels\LoadingStates.cs" />
     <Compile Include="ViewModels\MainPageDataViewModel.cs" />

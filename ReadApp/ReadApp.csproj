@@ -159,7 +159,7 @@
       <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\VoiceCommandService\VoiceCommandService.csproj">
-      <Project>{0790f28d-c462-4753-9e29-2fffa4fc9294}</Project>
+      <Project>{11633718-4732-40ec-b255-59d65ebaf3cc}</Project>
       <Name>VoiceCommandService</Name>
     </ProjectReference>
   </ItemGroup>

@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.VoiceCommands;
 using Common.Repositorys;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace VoiceCommandService
 {
@@ -32,7 +32,7 @@ namespace VoiceCommandService
             switch (command.CommandName)
             {
                 case "ReadEventsByCortanaCommand":
-                    await HandleReadNamedaysCommandAsync(connection);
+                    await HandleReadEventsCommandAsync(connection);
                     break;
             }
 
@@ -40,59 +40,69 @@ namespace VoiceCommandService
             deferral.Complete();
         }
 
-        private static async Task HandleReadNamedaysCommandAsync(VoiceCommandServiceConnection connection)
+        private static async Task HandleReadEventsCommandAsync(VoiceCommandServiceConnection connection)
         {
-            ReadRepository ReadRepository = new ReadRepository();
-            //Genero un mensaje de espera para que el usuario vea
-            var userMessage = new VoiceCommandUserMessage();
-            userMessage.DisplayMessage = "Los eventos que se realizan el dia de hoy son";
-            userMessage.SpokenMessage = "Los eventos que se realizan el dia de hoy son";
-            var response = VoiceCommandResponse.CreateResponse(userMessage);
-            await connection.ReportProgressAsync(response);
-
-            var today = DateTime.Now.Date;
-            var notices = await ReadRepository.GetNextEvents();
-
-
-            if (notices.Count > 1)
+            try
             {
-                userMessage.SpokenMessage =
-                    userMessage.DisplayMessage =
-                        $"El dia de hoy se realizan {notices.Count} eventos";
-
-                var tile = new VoiceCommandContentTile();
-                tile.ContentTileType = VoiceCommandContentTileType.TitleOnly;
-                var titleList = new List<VoiceCommandContentTile>();
-                var count = 0;
-                foreach (var noticeModel in notices)
-                {
-                    if (count <= 5)
-                    {
-                        titleList.Add(new VoiceCommandContentTile
-                        {
-                            Title = noticeModel.Title.ToString(),
-                            ContentTileType = VoiceCommandContentTileType.TitleWithText,
-                            TextLine1 = noticeModel.Date.ToString()
-
-                        });
-                        ++count;
-                    }
-                }
-                response = VoiceCommandResponse.CreateResponse(userMessage, titleList);
+                ReadRepository ReadRepository = new ReadRepository();
+                //Genero un mensaje de espera para que el usuario vea
+                var userMessage = new VoiceCommandUserMessage();
+                userMessage.DisplayMessage = "Buscando eventos próximos ..";
+                userMessage.SpokenMessage = "Buscando eventos próximos ";
+                var response = VoiceCommandResponse.CreateResponse(userMessage);
                 await connection.ReportProgressAsync(response);
-            }
-            else
-            {
-                if (notices != null)
+
+                var today = DateTime.Now.Date;
+                var notices = await ReadRepository.GetNextEvents();
+
+
+                if (notices.Count > 1)
                 {
                     userMessage.SpokenMessage =
-                     userMessage.DisplayMessage =
-                         $"El evento que se realiza hoy es {notices.First().Title} eventos";
-                    response = VoiceCommandResponse.CreateResponse(userMessage);
-                }
-            }
+                        userMessage.DisplayMessage =
+                            $"El dia de hoy se realizan {notices.Count} eventos";
 
-            await connection.ReportSuccessAsync(response);
+                    var tile = new VoiceCommandContentTile();
+                    tile.ContentTileType = VoiceCommandContentTileType.TitleOnly;
+                    var titleList = new List<VoiceCommandContentTile>();
+                    var count = 0;
+                    foreach (var noticeModel in notices)
+                    {
+                        if (count <= 5)
+                        {
+                            titleList.Add(new VoiceCommandContentTile
+                            {
+                                Title = noticeModel.Title.ToString(),
+                                ContentTileType = VoiceCommandContentTileType.TitleWithText,
+                                TextLine1 = noticeModel.Date.ToString()
+
+                            });
+                            ++count;
+                        }
+                    }
+                    response = VoiceCommandResponse.CreateResponse(userMessage, titleList);
+                    await connection.ReportProgressAsync(response);
+
+                }
+                else
+                {
+                    if (notices != null)
+                    {
+                        userMessage.SpokenMessage =
+                         userMessage.DisplayMessage =
+                             $"Usted tiene {notices.First().Title} eventos próximos";
+                        response = VoiceCommandResponse.CreateResponse(userMessage);
+                    }
+                }
+
+                await connection.ReportSuccessAsync(response);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         private void ConnectionOnVoiceCommandCompleted(VoiceCommandServiceConnection sender, VoiceCommandCompletedEventArgs args)

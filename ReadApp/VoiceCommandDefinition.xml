@@ -13,7 +13,7 @@
     </Command>
     <Command Name="ReadEventsByCortanaCommand">
       <Example>Lector De Eventos eventos de hoy</Example>
-      <ListenFor RequireAppName="ExplicitlySpecified">{builtin:AppName} eventos de hoy</ListenFor>
+      <ListenFor RequireAppName="ExplicitlySpecified">{builtin:AppName} eventos próximos</ListenFor>
       <Feedback>Procesando</Feedback>
       <VoiceCommandService Target="VoiceCommandService"/>
     </Command>

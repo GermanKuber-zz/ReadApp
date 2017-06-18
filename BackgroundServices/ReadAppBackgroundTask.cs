@@ -30,22 +30,38 @@ namespace BackgroundServices
 
         private async Task SendNotificationAsync()
         {
-            ReadRepository ReadRepository = new ReadRepository();
-            var noticeInDay = await ReadRepository.GetNextEvents();
-            if (noticeInDay == null)
-                return;
+            try
+            {
 
-            ToastNotifier notifier = ToastNotificationManager.CreateToastNotifier();
-            XmlDocument content = ToastNotificationManager.GetTemplateContent(
-                    ToastTemplateType.ToastText02);
 
-            var texts = content.GetElementsByTagName("text");
+                ReadRepository ReadRepository = new ReadRepository();
+                var events = await ReadRepository.GetNextEvents();
+                if (events == null && events.Count > 0)
+                    return;
 
-            texts[0].InnerText = "Usted tienen algunas noticias para el dia de hoy!";
+                ToastNotifier notifier = ToastNotificationManager.CreateToastNotifier();
+                XmlDocument content = ToastNotificationManager.GetTemplateContent(
+                        ToastTemplateType.ToastImageAndText01);
 
-            texts[1].InnerText = $"Usted tiene un total de  {noticeInDay.Count} noticias!";
 
-            notifier.Show(new ToastNotification(content));
+                var texts = content.GetElementsByTagName("text");
+
+                texts[0].InnerText = $"Usted tiene un evento próximo!!";
+
+                texts[1].InnerText = $"El evento {events.First().Title} , se realizara el dia  {events.First().Date.ToLocalTime()}";
+
+                var image = content.GetElementsByTagName("image");
+                image[0].InnerText = events.First().Image;
+
+                notifier.Show(new ToastNotification(content));
+     
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
 
@@ -80,7 +96,7 @@ namespace BackgroundServices
                 return;
 
             var template =
-                    GenerateTemplate();                                                          
+                    GenerateTemplate();
 
             var content = string.Format(template, noticeInDay.Title, noticeInDay.Date, noticeInDay.Image);
             var doc = new XmlDocument();
