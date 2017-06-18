@@ -7,13 +7,12 @@ namespace Common.Admins
 {
     public class EmailAdmin
     {
-        public async Task SendEmailAsync(Contact contact, string subject,string body)
+        public async Task SendEmailAsync(string email, string subject,string body)
         {
-            if (contact == null || contact.Emails.Count == 0)
-                return;
+      
 
             var msg = new EmailMessage();
-            msg.To.Add(new EmailRecipient(contact.Emails[0].Address));
+            msg.To.Add(new EmailRecipient(email));
             msg.Subject = $"Quisiera compartirte la siguiente noticia : {subject}";
             msg.Body = body;
             await EmailManager.ShowComposeNewEmailAsync(msg);

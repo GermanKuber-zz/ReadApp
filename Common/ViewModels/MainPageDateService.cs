@@ -23,13 +23,13 @@ namespace Common.ViewModels
 
         #region Public Methods
 
-        public async Task SendEmailAsync(EventModel notice)
+        public async Task SendEmailAsync(EventModel notice, string email)
         {
             EmailAdmin emailAdmin = new EmailAdmin();
-            ContactAdmin contactAdmin = new ContactAdmin();
-            var contact = await contactAdmin.GetAllContacts();
+            //ContactAdmin contactAdmin = new ContactAdmin();
+            //var contact = await contactAdmin.GetAllContacts();
             if (notice.Title != null)
-                await emailAdmin.SendEmailAsync(contact.First(x => x.Contact.Emails?.Count > 0).Contact, notice.Title, notice.Text);
+                await emailAdmin.SendEmailAsync(email, notice.Title, notice.Text);
         }
 
         public async void AddNoticeToCalendarAsync(EventModel notice)

@@ -138,6 +138,22 @@ namespace Common.ViewModels
             }
             set { _addNoticeToCommand = value; }
         }
+        public ICommand SendEmailCommand
+        {
+            get
+            {
+                if (_addNoticeToCommand == null)
+                {
+                    _addNoticeToCommand = new CommandHandler((async (obj) =>
+                    {
+                        await MainPageDateService.SendEmailAsync((EventModel)obj,SelectedRead.Email);
+                    }));
+                }
+                return _addNoticeToCommand;
+            }
+            set { _addNoticeToCommand = value; }
+        }
+
         public ICommand SwitchMenuCommand
         {
             get

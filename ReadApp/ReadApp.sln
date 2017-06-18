@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\Common\Common.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoiceCommandService", "..\VoiceCommandService\VoiceCommandService.csproj", "{0790F28D-C462-4753-9E29-2FFFA4FC9294}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundServices", "..\BackgroundServices\BackgroundServices.csproj", "{7688B490-0473-4AE1-8BE9-8F236504EFED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundServices", "..\BackgroundServices\BackgroundServices.csproj", "{01FD0F1E-00F8-4647-8938-DC6022851903}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,22 +75,22 @@ Global
 		{0790F28D-C462-4753-9E29-2FFFA4FC9294}.Release|x64.Build.0 = Release|x64
 		{0790F28D-C462-4753-9E29-2FFFA4FC9294}.Release|x86.ActiveCfg = Release|x86
 		{0790F28D-C462-4753-9E29-2FFFA4FC9294}.Release|x86.Build.0 = Release|x86
-		{7688B490-0473-4AE1-8BE9-8F236504EFED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7688B490-0473-4AE1-8BE9-8F236504EFED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7688B490-0473-4AE1-8BE9-8F236504EFED}.Debug|ARM.ActiveCfg = Debug|ARM
-		{7688B490-0473-4AE1-8BE9-8F236504EFED}.Debug|ARM.Build.0 = Debug|ARM
-		{7688B490-0473-4AE1-8BE9-8F236504EFED}.Debug|x64.ActiveCfg = Debug|x64
-		{7688B490-0473-4AE1-8BE9-8F236504EFED}.Debug|x64.Build.0 = Debug|x64
-		{7688B490-0473-4AE1-8BE9-8F236504EFED}.Debug|x86.ActiveCfg = Debug|x86
-		{7688B490-0473-4AE1-8BE9-8F236504EFED}.Debug|x86.Build.0 = Debug|x86
-		{7688B490-0473-4AE1-8BE9-8F236504EFED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7688B490-0473-4AE1-8BE9-8F236504EFED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7688B490-0473-4AE1-8BE9-8F236504EFED}.Release|ARM.ActiveCfg = Release|ARM
-		{7688B490-0473-4AE1-8BE9-8F236504EFED}.Release|ARM.Build.0 = Release|ARM
-		{7688B490-0473-4AE1-8BE9-8F236504EFED}.Release|x64.ActiveCfg = Release|x64
-		{7688B490-0473-4AE1-8BE9-8F236504EFED}.Release|x64.Build.0 = Release|x64
-		{7688B490-0473-4AE1-8BE9-8F236504EFED}.Release|x86.ActiveCfg = Release|x86
-		{7688B490-0473-4AE1-8BE9-8F236504EFED}.Release|x86.Build.0 = Release|x86
+		{01FD0F1E-00F8-4647-8938-DC6022851903}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01FD0F1E-00F8-4647-8938-DC6022851903}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01FD0F1E-00F8-4647-8938-DC6022851903}.Debug|ARM.ActiveCfg = Debug|ARM
+		{01FD0F1E-00F8-4647-8938-DC6022851903}.Debug|ARM.Build.0 = Debug|ARM
+		{01FD0F1E-00F8-4647-8938-DC6022851903}.Debug|x64.ActiveCfg = Debug|x64
+		{01FD0F1E-00F8-4647-8938-DC6022851903}.Debug|x64.Build.0 = Debug|x64
+		{01FD0F1E-00F8-4647-8938-DC6022851903}.Debug|x86.ActiveCfg = Debug|x86
+		{01FD0F1E-00F8-4647-8938-DC6022851903}.Debug|x86.Build.0 = Debug|x86
+		{01FD0F1E-00F8-4647-8938-DC6022851903}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01FD0F1E-00F8-4647-8938-DC6022851903}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01FD0F1E-00F8-4647-8938-DC6022851903}.Release|ARM.ActiveCfg = Release|ARM
+		{01FD0F1E-00F8-4647-8938-DC6022851903}.Release|ARM.Build.0 = Release|ARM
+		{01FD0F1E-00F8-4647-8938-DC6022851903}.Release|x64.ActiveCfg = Release|x64
+		{01FD0F1E-00F8-4647-8938-DC6022851903}.Release|x64.Build.0 = Release|x64
+		{01FD0F1E-00F8-4647-8938-DC6022851903}.Release|x86.ActiveCfg = Release|x86
+		{01FD0F1E-00F8-4647-8938-DC6022851903}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

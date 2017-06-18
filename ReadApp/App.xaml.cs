@@ -34,6 +34,7 @@ namespace ReadApp
         /// <param name="e">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
+            //TODO : Ejecuta el registro del servicio
             ReadAppBackgroundTask.Register();
             //install Voice Commands
             var vcdFile = await StorageFile.GetFileFromApplicationUriAsync(

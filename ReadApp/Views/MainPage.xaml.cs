@@ -14,13 +14,6 @@ namespace ReadApp.Views
             Logic.PropertyChanged += Logic_PropertyChanged;
         }
 
-        private async void Button_OnClick(object sender, RoutedEventArgs e)
-        {
-            var notice = ((FrameworkElement)sender).DataContext as EventModel;
-
-            if (notice != null)
-                await ((MainPageDataViewModel)this.DataContext).MainPageDateService.SendEmailAsync(notice);
-        }
 
         private void appBarButton_Click(object sender, RoutedEventArgs e)
         {

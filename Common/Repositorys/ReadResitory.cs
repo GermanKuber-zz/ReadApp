@@ -14,7 +14,7 @@ namespace Common.Repositorys
 {
     public class ReadRepository
     {
-        private List<CommunityModel> _readCache;
+        private static List<CommunityModel> _readCache;
 
         public ReadRepository()
         {
@@ -41,12 +41,12 @@ namespace Common.Repositorys
 
 
 
-        public async Task<List<EventModel>> GetNoticesInDay()
+        public async Task<List<EventModel>> GetNextEvents()
         {
-
+            await GenerateAsync();
             var now = DateTime.Now;
 
-            var selectedChildren = _readCache.SelectMany(x => x.Events).Where(s => s.Date.Day == now.Day).ToList();
+            var selectedChildren = _readCache.SelectMany(x => x.Events).Where(s => s.Date >= now).ToList();
 
             return selectedChildren;
             // return await ReadFromFile();
@@ -66,6 +66,7 @@ namespace Common.Repositorys
             var local = new List<CommunityModel> {
             new CommunityModel{
                                 Name = "[Net-Baires] Comunidad de .NET en Buenos Aires",
+                                Description = "Comunidad de desarrolladores .Net de la ciudad de Buenos AiresLa intención es generar un espacio donde compartir conocimiento, anédotas y todo tipo de experiencias que puedan generar interés en cualquiera de nosotros.Están todos invitados a proponer charlas, workshop o cualquier actividad.Los invitamos a participar del team de slack : http://slack.net-baires.com.ar/Los invitamos a participar activamente de la comunidad y propones su charlas: https://github.com/Net-Baires/charlas",
                                 Link = "https://www.meetup.com/es-ES/Net-Baires/",
                                 Picture ="https://secure.meetupstatic.com/photos/event/9/6/6/c/600_460418508.jpeg",
                                 Email = "net-baires@outlook.com",
@@ -111,6 +112,7 @@ namespace Common.Repositorys
                         },
              new CommunityModel{
                                 Name = "MeetUp.Js",
+                                Description ="Grupo para debatir y compartir ideas en torno a Javascript (client-side y server-side), distintos frameworks, librerías y tecnologías en general. Un meetup mensual con charlas preparadas por miembros de la propia comunidad",
                                 Link = "https://www.meetup.com/es-ES/Meetup-js/",
                                 Picture ="http://blob.todoexpertos.com/topics/lg/219.jpg",
                                 Email = "meetup-js@outlook.com",

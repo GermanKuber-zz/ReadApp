@@ -31,7 +31,7 @@ namespace BackgroundServices
         private async Task SendNotificationAsync()
         {
             ReadRepository ReadRepository = new ReadRepository();
-            var noticeInDay = await ReadRepository.GetNextEvents();
+            var noticeInDay = await ReadRepository.GetNoticesInDay();
             if (noticeInDay == null)
                 return;
 
@@ -93,15 +93,15 @@ namespace BackgroundServices
 
         private static string GenerateTemplate()
         {
-            //return TemplateContent.Simple;
-            return TemplateContent.WithImage;
+            return TemplateContent.Simple;
+            //return TemplateContent.WithImage;
         }
 
         //Muestro una noticia random
         private static async Task<EventModel> GetRandomNotice()
         {
             ReadRepository ReadRepository = new ReadRepository();
-            var noticeInDay = await ReadRepository.GetNextEvents();
+            var noticeInDay = await ReadRepository.GetNoticesInDay();
             var random = new Random();
             var number = random.Next(0, noticeInDay.Count - 1);
 

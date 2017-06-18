@@ -51,7 +51,7 @@ namespace VoiceCommandService
             await connection.ReportProgressAsync(response);
 
             var today = DateTime.Now.Date;
-            var notices = await ReadRepository.GetNoticesInDay();
+            var notices = await ReadRepository.GetNextEvents();
 
 
             if (notices.Count > 1)
