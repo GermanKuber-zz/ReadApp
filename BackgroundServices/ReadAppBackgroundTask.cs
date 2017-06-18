@@ -98,7 +98,7 @@ namespace BackgroundServices
         }
 
         //Muestro una noticia random
-        private static async Task<NoticeModel> GetRandomNotice()
+        private static async Task<EventModel> GetRandomNotice()
         {
             ReadRepository ReadRepository = new ReadRepository();
             var noticeInDay = await ReadRepository.GetNoticesInDay();

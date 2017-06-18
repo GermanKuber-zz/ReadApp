@@ -115,6 +115,9 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>5.3.3</Version>
     </PackageReference>
+    <PackageReference Include="Roslynator.Analyzers">
+      <Version>1.4.0</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

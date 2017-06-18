@@ -16,7 +16,7 @@ namespace ReadApp.Views
 
         private async void Button_OnClick(object sender, RoutedEventArgs e)
         {
-            var notice = ((FrameworkElement)sender).DataContext as NoticeModel;
+            var notice = ((FrameworkElement)sender).DataContext as EventModel;
 
             if (notice != null)
                 await ((MainPageDataViewModel)this.DataContext).MainPageDateService.SendEmailAsync(notice);

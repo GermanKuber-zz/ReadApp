@@ -18,19 +18,12 @@ namespace Common.ViewModels
     public class MainPageDateService {
         //Sacar
 
-        public DateTime RandomDay()
-        {
-
-            Random gen = new Random();
-            DateTime start = new DateTime(1995, 1, 1);
-            int range = (DateTime.Today - start).Days;
-            return start.AddDays(gen.Next(range));
-        }
+     
 
 
         #region Public Methods
 
-        public async Task SendEmailAsync(NoticeModel notice)
+        public async Task SendEmailAsync(EventModel notice)
         {
             EmailAdmin emailAdmin = new EmailAdmin();
             ContactAdmin contactAdmin = new ContactAdmin();
@@ -39,7 +32,7 @@ namespace Common.ViewModels
                 await emailAdmin.SendEmailAsync(contact.First(x => x.Contact.Emails?.Count > 0).Contact, notice.Title, notice.Text);
         }
 
-        public async void AddNoticeToCalendarAsync(NoticeModel notice)
+        public async void AddNoticeToCalendarAsync(EventModel notice)
         {
             if (notice == null)
                 throw new ArgumentNullException(nameof(notice));
@@ -49,7 +42,7 @@ namespace Common.ViewModels
             appointment.AllDay = true;
             appointment.BusyStatus = AppointmentBusyStatus.Free;
             var dateThisYear = new DateTime(
-                DateTime.Now.Year, notice.DateParse.Month, notice.DateParse.Day);
+                DateTime.Now.Year, notice.Date.Month, notice.Date.Day);
             appointment.StartTime =
                 dateThisYear < DateTime.Now ? dateThisYear.AddYears(1) : dateThisYear;
 

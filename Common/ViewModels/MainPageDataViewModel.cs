@@ -35,7 +35,7 @@ namespace Common.ViewModels
                     new PropertyChangedEventArgs(nameof(Filter)));
             }
         }
-        public ObservableCollection<ReadModel> ReadModels { get; set; }
+        public ObservableCollection<CommunityModel> ReadModels { get; set; }
         public string Title
         {
             get { return _title; }
@@ -50,7 +50,7 @@ namespace Common.ViewModels
         }
         public ObservableCollection<ContactWrapper> Contacts = new ObservableCollection<ContactWrapper>();
         public event PropertyChangedEventHandler PropertyChanged;
-        public ReadModel SelectedRead
+        public CommunityModel SelectedRead
         {
             get { return _selectedRead; }
             set
@@ -59,11 +59,11 @@ namespace Common.ViewModels
                 if (value == null)
                     Title = Welcome;
                 else
-                    Title = $"Usuario Seleccionado : {_selectedRead.Name}";
+                    Title = $"Saludos : {_selectedRead.Name}";
                 PropertyChanged?.Invoke(this,
                    new PropertyChangedEventArgs(nameof(SelectedRead)));
-                if (VisibleMenu == Visibility.Visible)
-                    this.OpenMenu = false;
+                //if (VisibleMenu == Visibility.Visible)
+                //    this.OpenMenu = false;
             }
         }
         public bool OpenMenu
@@ -131,7 +131,7 @@ namespace Common.ViewModels
                 {
                     _addNoticeToCommand = new CommandHandler(((obj) =>
                     {
-                        MainPageDateService.AddNoticeToCalendarAsync((NoticeModel)obj);
+                        MainPageDateService.AddNoticeToCalendarAsync((EventModel)obj);
                     }));
                 }
                 return _addNoticeToCommand;
@@ -163,9 +163,9 @@ namespace Common.ViewModels
         private const string Welcome = "Bienvenido ReadApp";
         private string _title;
 
-        private List<ReadModel> _readModels = new List<ReadModel>();
+        private List<CommunityModel> _readModels = new List<CommunityModel>();
 
-        private ReadModel _selectedRead;
+        private CommunityModel _selectedRead;
 
         private string _filter;
 
@@ -183,7 +183,7 @@ namespace Common.ViewModels
 
         public MainPageDataViewModel()
         {
-            ReadModels = new ObservableCollection<ReadModel>();
+            ReadModels = new ObservableCollection<CommunityModel>();
             //Genero data
             if (DesignMode.DesignModeEnabled)
                 GenerateDummyData();
@@ -193,16 +193,16 @@ namespace Common.ViewModels
             this.Title = Welcome;
             this.Configurations = new ConfigurationsViewModel();
             this.LoadingState = LoadingStates.Loading;
-            
+
         }
 
-       
+
 
         #endregion
 
         #region Private Methods
 
-       
+
         private async void LoadData()
         {
             try
@@ -218,8 +218,8 @@ namespace Common.ViewModels
             {
                 LoadingState = LoadingStates.Error;
             }
-           
-       
+
+
         }
 
 
@@ -243,83 +243,18 @@ namespace Common.ViewModels
 
         private void GenerateDummyData()
         {
-            //Solo se carga en el modo diseño
-            for (int i = 0; i < 150; i++)
+
+            var list = _readRepository.DataForView();
+            list.ForEach(x =>
             {
-                var readModel = new ReadModel
-                {
-                    Email = $"mail@prueba{i}.com",
-                    Picture = "http://placehold.it/400x400",
-                    Name = $"Nombre : {i}",
-                    Last = $"Apellido : {i}",
-                    Notices = new List<NoticeModel>
-                    {
-                        new NoticeModel
-                        {
-                            Date = MainPageDateService.RandomDay().ToString(),
-                            Id = i,
-                            Tags = new List<string>
-                            {
-                                $"Tag - {i}",
-                                $"Tag - {i - 5}"
-                            },
-                            Text =
-                                "Ex cupidatat culpa consequat enim laborum in deserunt anim occaecat. Deserunt eiusmod quis occaecat id deserunt est voluptate do fugiat adipisicing. Ut laboris in magna adipisicing amet non nulla in. Duis irure qui mollit ea et amet esse tempor dolor reprehenderit do.",
-                            Title = $"Titulo numero  : {i}",
-                            Image = "http://placehold.it/400x400"
-                        },
-                        new NoticeModel
-                        {
-                            Date = MainPageDateService.RandomDay().ToString(),
-                            Id = i,
-                            Tags = new List<string>
-                            {
-                                $"Tag - {i}",
-                                $"Tag - {i - 5}"
-                            },
-                            Text =
-                                "Ex cupidatat culpa consequat enim laborum in deserunt anim occaecat. Deserunt eiusmod quis occaecat id deserunt est voluptate do fugiat adipisicing. Ut laboris in magna adipisicing amet non nulla in. Duis irure qui mollit ea et amet esse tempor dolor reprehenderit do.",
-                            Title = $"Titulo numero  : {i}",
-                            Image = "http://placehold.it/400x400"
-                        },
-                        new NoticeModel
-                        {
-                            Date = MainPageDateService.RandomDay().ToString(),
-                            Id = i,
-                            Tags = new List<string>
-                            {
-                                $"Tag - {i}",
-                                $"Tag - {i - 5}"
-                            },
-                            Text =
-                                "Ex cupidatat culpa consequat enim laborum in deserunt anim occaecat. Deserunt eiusmod quis occaecat id deserunt est voluptate do fugiat adipisicing. Ut laboris in magna adipisicing amet non nulla in. Duis irure qui mollit ea et amet esse tempor dolor reprehenderit do.",
-                            Title = $"Titulo numero  : {i}",
-                            Image = "http://placehold.it/400x400"
-                        },
-                        new NoticeModel
-                        {
-                            Date = MainPageDateService.RandomDay().ToString(),
-                            Id = i,
-                            Tags = new List<string>
-                            {
-                                $"Tag - {i}",
-                                $"Tag - {i - 5}"
-                            },
-                            Text =
-                                "Ex cupidatat culpa consequat enim laborum in deserunt anim occaecat. Deserunt eiusmod quis occaecat id deserunt est voluptate do fugiat adipisicing. Ut laboris in magna adipisicing amet non nulla in. Duis irure qui mollit ea et amet esse tempor dolor reprehenderit do.",
-                            Title = $"Titulo numero  : {i}",
-                            Image = "http://placehold.it/400x400"
-                        }
-                    }
-                };
+                ReadModels.Add(x);
 
+            });
 
-                ReadModels.Add(readModel);
-            }
             if (ReadModels != null && ReadModels.Count > 0)
                 this.SelectedRead = ReadModels.First();
             //FilterText();
         }
-   
+
     }
 }

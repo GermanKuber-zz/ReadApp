@@ -72,7 +72,7 @@ namespace VoiceCommandService
                         {
                             Title = noticeModel.Title.ToString(),
                             ContentTileType = VoiceCommandContentTileType.TitleWithText,
-                            TextLine1 = noticeModel.Date
+                            TextLine1 = noticeModel.Date.ToString()
 
                         });
                         ++count;
