@@ -163,6 +163,7 @@ namespace Common.Repositorys
                     Email = $"mail@prueba{i}.com",
                     Picture = "http://placehold.it/400x400",
                     Name = $"Nombre : {i}",
+                    Description= "'IMPORTANTE: Mas información y registro en: http://netconfar.com. No se abrirá el registros por acá. .NET Conf AR v2017 se realizará los días 29, 30 de Junio y 1ero de Julio en la Facultad de Ciencias Económicas de la Universidad de Buenos Aires. <p><br/>.NET Conf es el <b>evento más importante de Latinoamérica sobre tecnologías .NET y Azure. Los últimos tres años se ha realizado en Montevideo, Uruguay, teniendo en el 2016 un total de +500 inscriptos, +30 speakers nacionales e internacionales y +40 charlas doble track a lo largo de 3 días. Este evento se realiza sin fines de lucro y es organizado por la comunidad de desarrolladores de Argentina y Uruguay. <p>Este año se realizará también en Argentina donde tenemos un día con <b>8 workshops y 2 días con 10 charlas cada uno de la mano de 24 speakers hablando de temas como: <i>Azure, Windows 10, Universal Apps, ASP.NET, MVC, WebAPI, Xamarin, Windows Mobile, Data Management, Sharepoint, Application Lifecycle Management, Agility, Visual Studio, C#, VB.NET, Emprendedurismo, Internet of Things, Aspect Oriented Programming, y mucho más!Para mas información del evento y registrarte: http://netconfar.com/ NOTA: No se abrirán los registros por acá.",
                     Events = new List<EventModel>
                     {
                         new EventModel

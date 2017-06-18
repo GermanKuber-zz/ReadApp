@@ -6,8 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Appointments;
-using Common.Admins;
 using Common.ForViews;
 using Common.Models;
 using Common.Repositorys;
@@ -17,8 +15,6 @@ namespace Common.ViewModels
 {
     public class MainPageDataViewModel : INotifyPropertyChanged
     {
-
-
         public MainPageDateService MainPageDateService = new MainPageDateService();
 
         #region Public Properties
