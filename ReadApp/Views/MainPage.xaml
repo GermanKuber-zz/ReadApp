@@ -70,7 +70,7 @@
     <Grid x:Name="GridContext" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Interactivity:Interaction.Behaviors>
             <Core:EventTriggerBehavior>
-                <Core:GoToStateAction StateName="Loading"/>
+                <Core:GoToStateAction StateName="Loaded"/>
             </Core:EventTriggerBehavior>
         </Interactivity:Interaction.Behaviors>
         <VisualStateManager.VisualStateGroups>

@@ -108,6 +108,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="Data.json" />
     <None Include="ReadApp_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

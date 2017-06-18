@@ -19,7 +19,7 @@ namespace Common.ViewModels
     {
 
 
-
+        public MainPageDateService MainPageDateService = new MainPageDateService();
 
         #region Public Properties
         public Visibility VisibleMenu
@@ -62,7 +62,6 @@ namespace Common.ViewModels
                     Title = $"Usuario Seleccionado : {_selectedRead.Name}";
                 PropertyChanged?.Invoke(this,
                    new PropertyChangedEventArgs(nameof(SelectedRead)));
-                UpdateContacts();
                 if (VisibleMenu == Visibility.Visible)
                     this.OpenMenu = false;
             }
@@ -89,7 +88,7 @@ namespace Common.ViewModels
                 PropertyChanged?.Invoke(this,
                     new PropertyChangedEventArgs(nameof(Filter)));
 
-                FilterText();
+                FilterTextAsync();
             }
         }
         private ConfigurationsViewModel _configurations;
@@ -132,7 +131,7 @@ namespace Common.ViewModels
                 {
                     _addNoticeToCommand = new CommandHandler(((obj) =>
                     {
-                        this.AddNoticeToCalendarAsync((NoticeModel)obj);
+                        MainPageDateService.AddNoticeToCalendarAsync((NoticeModel)obj);
                     }));
                 }
                 return _addNoticeToCommand;
@@ -159,6 +158,7 @@ namespace Common.ViewModels
 
 
         #region Private Properties
+        private ReadRepository _readRepository = new ReadRepository();
 
         private const string Welcome = "Bienvenido ReadApp";
         private string _title;
@@ -196,6 +196,51 @@ namespace Common.ViewModels
             
         }
 
+       
+
+        #endregion
+
+        #region Private Methods
+
+       
+        private async void LoadData()
+        {
+            try
+            {
+                _readModels = await _readRepository.GetAllAsync();
+                FilterTextAsync();
+                LoadingState = LoadingStates.Loaded;
+                var random = new Random();
+
+                SelectedRead = ReadModels?.ElementAt(random.Next(0, ReadModels.Count - 1));
+            }
+            catch (Exception ex)
+            {
+                LoadingState = LoadingStates.Error;
+            }
+           
+       
+        }
+
+
+        #endregion
+
+        private async Task FilterTextAsync()
+        {
+            if (_filter == null)
+                _filter = "";
+
+            //Se filtran los readModels por Name
+            var result = await _readRepository.GetByNameAsync(this.Filter);
+
+            ReadModels.Clear();
+            result.ForEach(x =>
+            {
+                ReadModels.Add(x);
+            });
+        }
+        //Ya escrito
+
         private void GenerateDummyData()
         {
             //Solo se carga en el modo diseño
@@ -211,7 +256,7 @@ namespace Common.ViewModels
                     {
                         new NoticeModel
                         {
-                            Date = RandomDay().ToString(),
+                            Date = MainPageDateService.RandomDay().ToString(),
                             Id = i,
                             Tags = new List<string>
                             {
@@ -225,7 +270,7 @@ namespace Common.ViewModels
                         },
                         new NoticeModel
                         {
-                            Date = RandomDay().ToString(),
+                            Date = MainPageDateService.RandomDay().ToString(),
                             Id = i,
                             Tags = new List<string>
                             {
@@ -239,7 +284,7 @@ namespace Common.ViewModels
                         },
                         new NoticeModel
                         {
-                            Date = RandomDay().ToString(),
+                            Date = MainPageDateService.RandomDay().ToString(),
                             Id = i,
                             Tags = new List<string>
                             {
@@ -253,7 +298,7 @@ namespace Common.ViewModels
                         },
                         new NoticeModel
                         {
-                            Date = RandomDay().ToString(),
+                            Date = MainPageDateService.RandomDay().ToString(),
                             Id = i,
                             Tags = new List<string>
                             {
@@ -275,123 +320,6 @@ namespace Common.ViewModels
                 this.SelectedRead = ReadModels.First();
             //FilterText();
         }
-
-        #endregion
-
-
-        #region Public Methods
-
-        public async Task SendEmailAsync(NoticeModel notice)
-        {
-            EmailAdmin emailAdmin = new EmailAdmin();
-            ContactAdmin contactAdmin = new ContactAdmin();
-            var contact = await contactAdmin.GetAllContacts();
-            if (notice.Title != null)
-                await emailAdmin.SendEmailAsync(contact.First(x => x.Contact.Emails?.Count > 0).Contact, notice.Title, notice.Text);
-        }
-
-        public async void AddNoticeToCalendarAsync(NoticeModel notice)
-        {
-            if (notice == null)
-                throw new ArgumentNullException(nameof(notice));
-
-            var appointment = new Appointment();
-            appointment.Subject = "Evento : " + notice.Title;
-            appointment.AllDay = true;
-            appointment.BusyStatus = AppointmentBusyStatus.Free;
-            var dateThisYear = new DateTime(
-                DateTime.Now.Year, notice.DateParse.Month, notice.DateParse.Day);
-            appointment.StartTime =
-                dateThisYear < DateTime.Now ? dateThisYear.AddYears(1) : dateThisYear;
-
-            await AppointmentManager.ShowEditNewAppointmentAsync(appointment);
-        }
-        #endregion
-
-
-        #region Private Methods
-
-        private void GenerateDataDummy()
-        {
-
-        }
-
-        private DateTime RandomDay()
-        {
-
-            Random gen = new Random();
-            DateTime start = new DateTime(1995, 1, 1);
-            int range = (DateTime.Today - start).Days;
-            return start.AddDays(gen.Next(range));
-        }
-        private async void LoadData()
-        {
-            try
-            {
-                _readModels = await ReadResitory.GetReadsAsync();
-                FilterText();
-                LoadingState = LoadingStates.Loaded;
-                var random = new Random();
-
-                SelectedRead = ReadModels?.ElementAt(random.Next(0, ReadModels.Count - 1));
-            }
-            catch (Exception)
-            {
-                LoadingState = LoadingStates.Error;
-            }
-           
-       
-        }
-
-        private void FilterText()
-        {
-            if (_filter == null)
-                _filter = "";
-
-            //Se filtran los readModels por Name
-            var result =
-                _readModels.Where(d => d.Name.ToLowerInvariant()
-                .Contains(Filter.ToLowerInvariant()))
-                .ToList();
-            //Se excluyen los que no aplican al filtro
-            var toRemove = ReadModels.Except(result).ToList();
-
-            //Se eliminan los que no se quieren  mostrar
-            foreach (var x in toRemove)
-                ReadModels.Remove(x);
-
-            var resultCount = result.Count;
-            for (int i = 0; i < resultCount; i++)
-            {
-                //Agrego a la lista
-                var resultItem = result[i];
-                if (i + 1 > ReadModels.Count || !ReadModels[i].Equals(resultItem))
-                    ReadModels.Insert(i, resultItem);
-            }
-        }
-
-        private async void UpdateContacts()
-        {
-
-        }
-
-        #endregion
-
-
-        #region Events Overrides
-
-
-
-        #endregion
-
-
-
-    }
-
-    public enum LoadingStates
-    {
-        Loading,
-        Loaded,
-        Error
+   
     }
 }

@@ -19,7 +19,7 @@ namespace ReadApp.Views
             var notice = ((FrameworkElement)sender).DataContext as NoticeModel;
 
             if (notice != null)
-                await ((MainPageDataViewModel)this.DataContext).SendEmailAsync(notice);
+                await ((MainPageDataViewModel)this.DataContext).MainPageDateService.SendEmailAsync(notice);
         }
 
         private void appBarButton_Click(object sender, RoutedEventArgs e)

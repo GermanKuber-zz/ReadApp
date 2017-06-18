@@ -11,36 +11,37 @@ using Newtonsoft.Json;
 
 namespace Common.Repositorys
 {
-    public static class ReadResitory
+    public  class ReadRepository
     {
-        private static List<ReadModel> _readCache;
+        private  List<ReadModel> _readCache;
 
-        public static async Task<List<ReadModel>> GetReadsAsync()
+        public ReadRepository()
         {
-
-            //Verfico el cache
-            if (_readCache != null)
-                return _readCache;
-            //Busco los datos en la nube
-            var client = new HttpClient();
-            //Ver State de Loading
-            //await Task.Delay(3000);
-            //throw new Exception("Test");
-            var stream = await client.GetStreamAsync(
-                  "http://beta.json-generator.com/api/json/get/VkuVFeVY-");
-
-            var serializer = new DataContractJsonSerializer(typeof(List<ReadModel>));
-            _readCache = (List<ReadModel>)serializer.ReadObject(stream);
-
-            return _readCache;
-            // return await ReadFromFile();
+            
         }
-        public static async Task<List<NoticeModel>> GetNoticesInDay()
+        public async Task GenerateAsync()
         {
-
-            //Verfico el cache
             if (_readCache == null)
-                _readCache = await GetReadsAsync();
+           _readCache =  await ReadFromFile();
+        }
+        public async Task<List<ReadModel>> GetAllAsync()
+        {
+            await GenerateAsync();
+            return _readCache;
+        }
+
+        public async Task<List<ReadModel>> GetByNameAsync(string name)
+        {
+            await GenerateAsync();
+            return _readCache.Where(d => d.Name.ToLowerInvariant()
+                .Contains(name.ToLowerInvariant()))
+                .ToList(); ;
+        }
+
+
+
+        public  async Task<List<NoticeModel>> GetNoticesInDay()
+        {
 
             var now = DateTime.Now;
 
@@ -50,7 +51,7 @@ namespace Common.Repositorys
             // return await ReadFromFile();
         }
 
-        public static async Task<List<ReadModel>> ReadFromFile()
+        public  async Task<List<ReadModel>> ReadFromFile()
         {
             //El archivo data.json debe esta en : ReadApp\bin\x86\Debug\AppX\data.json
             StorageFile storageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///data.json"));

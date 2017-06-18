@@ -42,6 +42,7 @@ namespace VoiceCommandService
 
         private static async Task HandleReadNamedaysCommandAsync(VoiceCommandServiceConnection connection)
         {
+            ReadRepository ReadRepository = new ReadRepository();
             //Genero un mensaje de espera para que el usuario vea
             var userMessage = new VoiceCommandUserMessage();
             userMessage.DisplayMessage = "Los eventos que se realizan el dia de hoy son";
@@ -50,10 +51,10 @@ namespace VoiceCommandService
             await connection.ReportProgressAsync(response);
 
             var today = DateTime.Now.Date;
-            var notices = await ReadResitory.GetNoticesInDay();
+            var notices = await ReadRepository.GetNoticesInDay();
 
 
-            if (notices.Count() > 1)
+            if (notices.Count > 1)
             {
                 userMessage.SpokenMessage =
                     userMessage.DisplayMessage =
