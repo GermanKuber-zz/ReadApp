@@ -1,0 +1,53 @@
+﻿<Page
+    x:Class="ReadApp.Views.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ReadApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:common="using:Common"
+    xmlns:viewModels="using:Common.ViewModels"
+    mc:Ignorable="d"  RequestedTheme="{Binding Configurations.Theme, Mode=TwoWay}">
+    <Page.DataContext>
+        <viewModels:MainPageDataViewModel/>
+    </Page.DataContext>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+
+        <StackPanel VerticalAlignment="Top" Margin="12,12,12,0">
+            <TextBlock x:Name="tbAppName" Style="{StaticResource TitleTextBlockStyle}" TextWrapping="Wrap" Text="ReadApp" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="textBlock" TextWrapping="Wrap" Opacity="0.595" Margin="0,20,0,0">
+                <Run Text="Hi!"/>
+                <LineBreak/>
+                <Run/>
+                <LineBreak/>
+                <Run Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras fermentum ex ac enim interdum blandit vitae non ligula. Aenean congue pharetra erat, sit amet suscipit nibh aliquam ut. Sed nec dui tortor. Vivamus id lacus elit. Quisque semper turpis faucibus, bibendum felis id, ornare mauris. Ut ex massa, ultrices eget ultricies at, aliquam in orci. Proin id laoreet diam. Vivamus bibendum ex imperdiet, fermentum ante non, rhoncus lorem. Quisque ornare convallis rhoncus. Nulla auctor urna in mi sagittis, nec scelerisque dui varius. Duis egestas neque vitae felis malesuada convallis."/>
+                <LineBreak/>
+                <Run/>
+                <LineBreak/>
+                <Run Text="Nunc at facilisis lacus. Cras egestas erat ornare sapien sollicitudin, viverra fringilla lectus tristique. Phasellus sodales nulla quis porta vehicula. Suspendisse iaculis ante nec ipsum elementum maximus. Pellentesque pellentesque dolor sed magna vehicula auctor. Integer porttitor blandit posuere. Aenean cursus ex eu elit tincidunt tempor. Proin placerat elit ac convallis maximus. Ut sodales lacus rutrum dui mollis, et laoreet metus ultricies. Donec ultricies malesuada leo id posuere."/>
+                <LineBreak/>
+                <Run/>
+                <LineBreak/>
+                <Run Text="Donec sed lorem augue. Nam eu metus arcu. Nulla ut felis ac mauris suscipit mattis in eget nunc. Vivamus commodo dignissim mi. Sed fringilla sollicitudin massa. Fusce tristique elementum est et eleifend. Phasellus sed nisi odio. Suspendisse bibendum tempus mollis. Quisque mollis accumsan libero, sit amet gravida nibh mattis eu."/>
+                <LineBreak/>
+                <Run/>
+                <LineBreak/>
+                <Run Text="Quisque egestas semper finibus. Mauris accumsan eu ex sed vulputate. Sed luctus rutrum magna. Sed id blandit elit. Donec commodo urna vehicula ante bibendum tempus. Vivamus consequat velit ac nisl efficitur, a finibus metus ultricies. Aliquam rutrum, odio id gravida pulvinar, metus justo gravida sapien, sed cursus justo sem ut eros. Fusce volutpat rutrum finibus. Vivamus sagittis, ligula et viverra posuere, velit orci scelerisque sapien, nec luctus libero eros vitae erat. Maecenas leo lectus, congue vel laoreet ut, convallis sed enim."/>
+                <LineBreak/>
+                <Run/>
+                <LineBreak/>
+                <Run Text="In nulla leo, bibendum eget sollicitudin ut, feugiat nec neque. Integer convallis tellus fringilla nisi cursus aliquet. Donec sit amet lacus nisi. Vestibulum consequat justo a dui eleifend, sed rutrum odio varius. Morbi auctor in quam facilisis efficitur. Donec mollis, urna vitae dignissim eleifend, massa eros iaculis ante, in pharetra erat dolor ut purus. Phasellus euismod massa non iaculis ultrices. In dolor tellus, gravida vel erat et, mollis vehicula erat. Morbi rutrum suscipit massa quis vulputate. Donec quis euismod sapien."/>
+            </TextBlock>
+            <TextBlock Opacity="0.595">
+                <Run/>
+                <LineBreak/>
+                <Run Text="Quisque egestas semper finibus. "/>
+                <LineBreak/>
+                <Run/>
+                <LineBreak/>
+                <Run Text="Questions, comments? "/>
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</Page>
