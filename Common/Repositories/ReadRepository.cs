@@ -22,8 +22,11 @@ namespace Common.Repositorys
         }
         public async Task GenerateAsync()
         {
-            if (_readCache == null)
+            if (_readCache == null) {
+                await Task.Delay(1000);
                 _readCache = GenerateDataDummy();
+            }
+          
         }
         public async Task<List<CommunityModel>> GetAllAsync()
         {

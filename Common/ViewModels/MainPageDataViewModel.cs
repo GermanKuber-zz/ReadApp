@@ -207,23 +207,20 @@ namespace Common.ViewModels
             else
                 LoadData();
 
-            
+            this.VisibleMenu = Visibility.Visible;
 
         }
-
-
 
         #endregion
 
         #region Private Methods
-
 
         private async void LoadData()
         {
             try
             {
                 _readModels = await _readRepository.GetAllAsync();
-                FilterTextAsync();
+                await FilterTextAsync();
                 LoadingState = LoadingStates.Loaded;
                 var random = new Random();
 
@@ -236,7 +233,6 @@ namespace Common.ViewModels
 
 
         }
-
 
         #endregion
 
@@ -253,6 +249,8 @@ namespace Common.ViewModels
             {
                 ReadModels.Add(x);
             });
+            if (ReadModels.Count > 0)
+                this.SelectedRead = ReadModels.First();
         }
         //Ya escrito
 

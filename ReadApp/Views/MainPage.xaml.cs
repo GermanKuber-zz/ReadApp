@@ -12,7 +12,7 @@ namespace ReadApp.Views
             
             this.InitializeComponent();
             Logic.PropertyChanged += Logic_PropertyChanged;
-            VisualStateManager.GoToState(this, Logic.LoadingState.ToString(), true);
+            //VisualStateManager.GoToState(this, Logic.LoadingState.ToString(), true);
         }
 
 
@@ -24,12 +24,13 @@ namespace ReadApp.Views
         private MainPageDataViewModel Logic => DataContext as MainPageDataViewModel;
 
 
-
+       
         private void Logic_PropertyChanged(object sender,
             System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(MainPageDataViewModel.LoadingState))
                 VisualStateManager.GoToState(this, Logic.LoadingState.ToString(), true);
+
         }
 
 
