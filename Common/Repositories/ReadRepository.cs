@@ -23,7 +23,7 @@ namespace Common.Repositorys
         public async Task GenerateAsync()
         {
             if (_readCache == null) {
-                await Task.Delay(1000);
+                await Task.Delay(2000);
                 _readCache = GenerateDataDummy();
             }
           
