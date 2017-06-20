@@ -65,6 +65,20 @@
         </CommandBar>
     </Page.BottomAppBar>-->
 
+    
+    
+    
+    
+    
+    
+    
+    <!--AQUI-->
+
+ 
+    
+    
+    
+    
 
 
         <!--<Grid x:Name="grid" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition" Grid.ColumnSpan="2" Background="#FF2E2E2E" Opacity="0.9" Canvas.ZIndex="1" d:IsHidden="True">

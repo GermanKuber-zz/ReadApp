@@ -4,7 +4,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:Common.ViewModels"
-    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Behavior="using:ReadApp.Behavior"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" 
+    xmlns:Behavior="using:ReadApp.Behavior"
     x:Class="ReadApp.Views.MainPage"
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d" RequestedTheme="{Binding Configurations.Theme, Mode=TwoWay}" Background="#FF434343" NavigationCacheMode="Enabled">
@@ -401,7 +402,10 @@
                         <TextBlock Text="{Binding SelectedRead.Description}" TextWrapping="Wrap" ></TextBlock>
                     </StackPanel>
                 </Grid >
-                <ScrollViewer x:Name="scrollViewer" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,-0.333,0,0" d:LayoutOverrides="TopPosition, BottomPosition">
+                <ScrollViewer  x:Name="scrollViewer" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,-0.333,0,0" d:LayoutOverrides="TopPosition, BottomPosition">
+                    <ScrollViewer.Background>
+                        <ImageBrush Stretch="UniformToFill" ImageSource="ms-appx:///Assets/background-team.jpg"/>
+                    </ScrollViewer.Background>
                     <ItemsControl ItemTemplate="{StaticResource ReadEventsTemplate}" ItemsSource="{Binding SelectedRead.Events}">
                         <ItemsControl.ItemContainerTransitions>
                             <TransitionCollection>
