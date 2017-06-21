@@ -352,19 +352,19 @@
                 <Grid>
                     <Grid Background="#FF1D3F58">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="41*"/>
-                            <ColumnDefinition Width="119*"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="0*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <ListView x:Name="listView" ItemTemplate="{StaticResource RememberModelTemplate}"  ItemsSource="{Binding ReadModels}" Grid.Row="1" SelectedItem="{Binding SelectedRead, Mode=TwoWay}" Background="#FF1D3F58" Grid.ColumnSpan="2">
+                        <ListView x:Name="listView" ItemTemplate="{StaticResource RememberModelTemplate}"  ItemsSource="{Binding ReadModels}" Grid.Row="1" SelectedItem="{Binding SelectedRead, Mode=TwoWay}" Background="#FF1D3F58" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
                             <Interactivity:Interaction.Behaviors>
                                 <Behavior:AutoScrollBehavior/>
                             </Interactivity:Interaction.Behaviors>
                         </ListView>
-                        <TextBox x:Name="textBox" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10,10,10,8" TextWrapping="Wrap"  d:LayoutOverrides="Height" PlaceholderText="Buscar ..." Background="#FF1D3F58" Foreground="White" SelectionHighlightColor="White" Style="{StaticResource TextBoxStyle1}" Grid.ColumnSpan="2">
+                        <TextBox x:Name="textBox" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10,10,1,8" TextWrapping="Wrap"  d:LayoutOverrides="Height, LeftMargin, RightMargin, TopMargin, BottomMargin" PlaceholderText="Buscar ..." Background="#FF1D3F58" Foreground="White" SelectionHighlightColor="White" Style="{StaticResource TextBoxStyle1}">
                             <TextBox.BorderBrush>
                                 <SolidColorBrush Color="#FF44B9D5"/>
                             </TextBox.BorderBrush>

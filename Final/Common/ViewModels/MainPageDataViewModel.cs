@@ -28,7 +28,7 @@ namespace Common.ViewModels
 
                 _visibleMenu = value;
                 PropertyChanged?.Invoke(this,
-                    new PropertyChangedEventArgs(nameof(Filter)));
+                    new PropertyChangedEventArgs(nameof(VisibleMenu)));
             }
         }
         public ObservableCollection<CommunityModel> ReadModels { get; set; }
@@ -230,8 +230,6 @@ namespace Common.ViewModels
             {
                 LoadingState = LoadingStates.Error;
             }
-
-
         }
 
         #endregion
