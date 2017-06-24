@@ -13,24 +13,35 @@ using Windows.UI.Xaml;
 
 namespace Common.ViewModels
 {
-    //TODO : 04 - Implemento la interface INotifyPropertyChanged
     public class MainPageDataViewModel : INotifyPropertyChanged
     {
-        //implemento la propiead de la interface.
         public event PropertyChangedEventHandler PropertyChanged;
 
         public MainPageDateService MainPageDateService = new MainPageDateService();
 
         private ReadRepository _readRepository = new ReadRepository();
 
-        public ConfigurationsViewModel Configuration = new ConfigurationsViewModel();
+        //TODO : 05 - Creamos una propiedad para la configuración.
+        private ConfigurationsViewModel _configurations;
+        public ConfigurationsViewModel Configurations
+        {
+            get { return _configurations; }
+            set
+            {
+                if (value == _configurations)
+                    return;
+
+                _configurations = value;
+                PropertyChanged?.Invoke(this,
+                    new PropertyChangedEventArgs(nameof(Filter)));
+            }
+        }
 
         #region Public Properties
 
-        //TODO : 03 - Agrego una lista observable, para derectar los cambios en la view
         public ObservableCollection<CommunityModel> ReadModels { get; set; } = new ObservableCollection<CommunityModel>();
 
-        //TODO : 05 - Propiedad que se utilizara bindear contra el item seleccionado
+
         private CommunityModel _selectedRead;
         public CommunityModel SelectedRead
         {
@@ -44,7 +55,6 @@ namespace Common.ViewModels
 
             }
         }
-        //TODO : 06 - Agrego propiedad para  bindear contra el texto que el usuario filtra
         private string _filter;
         public string Filter
         {
@@ -68,22 +78,40 @@ namespace Common.ViewModels
 
         #region Commands
 
-        //private ICommand _exampleCommand;
-        //public ICommand ExampleCommand
-        //{
-        //    get
-        //    {
-        //        if (_exampleCommand == null)
-        //        {
-        //            _exampleCommand = new CommandHandler(((obj) =>
-        //            {
-        //                ...
-        //            }));
-        //        }
-        //        return _exampleCommand;
-        //    }
-        //    set { _exampleCommand = value; }
-        //}
+        //TODO : 02 - Comando para agregar al calendario
+        private ICommand _addNoticeToCommand;
+        public ICommand AddNoticeToCommand
+        {
+            get
+            {
+                if (_addNoticeToCommand == null)
+                {
+                    _addNoticeToCommand = new CommandHandler(((obj) =>
+                    {
+                        MainPageDateService.AddNoticeToCalendarAsync((EventModel)obj);
+                    }));
+                }
+                return _addNoticeToCommand;
+            }
+            set { _addNoticeToCommand = value; }
+        }
+        //TODO : 03 - Comando para enviar email
+        private ICommand _sendEmailCommand;
+        public ICommand SendEmailCommand
+        {
+            get
+            {
+                if (_sendEmailCommand == null)
+                {
+                    _sendEmailCommand = new CommandHandler((async (obj) =>
+                    {
+                        await MainPageDateService.SendEmailAsync((EventModel)obj, SelectedRead.Email);
+                    }));
+                }
+                return _sendEmailCommand;
+            }
+            set { _sendEmailCommand = value; }
+        }
 
         #endregion
 
@@ -104,19 +132,19 @@ namespace Common.ViewModels
             else
                 FilterTextAsync();
 
+            //TODO : 08 - Instancio la configuración
+            this.Configurations = new ConfigurationsViewModel();
         }
 
         #endregion
 
         #region Private Methods
 
-        //TODO : 07 - Agrego metodo para filtrar y cargar los modelos a la lista
         private async Task FilterTextAsync()
         {
             if (_filter == null)
                 _filter = "";
 
-            //Se filtran los readModels por Name
             var result = await _readRepository.GetByNameAsync(this.Filter);
 
             ReadModels.Clear();
