@@ -70,7 +70,35 @@ namespace Common.ViewModels
                 FilterTextAsync();
             }
         }
+        //TODO : 03 - Agrego una propiedad para abrir y cerar el menu
 
+
+        public bool OpenMenu
+        {
+            get { return _openMenu; }
+            set
+            {
+                _openMenu = value;
+                PropertyChanged?.Invoke(this,
+                   new PropertyChangedEventArgs(nameof(OpenMenu)));
+            }
+        }
+        //TODO : 01 - Agregamos una propiedad para manejar los estdos
+        private LoadingStates _loadingState = LoadingStates.Loading;
+
+        public LoadingStates LoadingState
+        {
+            get { return _loadingState; }
+            set
+            {
+                if (value == _loadingState)
+                    return;
+
+                _loadingState = value;
+                PropertyChanged?.Invoke(this,
+                    new PropertyChangedEventArgs(nameof(LoadingState)));
+            }
+        }
 
         #endregion
 
@@ -94,6 +122,8 @@ namespace Common.ViewModels
             set { _addNoticeToCommand = value; }
         }
         private ICommand _sendEmailCommand;
+        private bool _openMenu;
+
         public ICommand SendEmailCommand
         {
             get
@@ -110,6 +140,24 @@ namespace Common.ViewModels
             set { _sendEmailCommand = value; }
         }
 
+        //TODO : 02 - Se crea comando para abrir y cerrar menu
+        private ICommand _switchMenuCommand;
+
+        public ICommand SwitchMenuCommand
+        {
+            get
+            {
+                if (_switchMenuCommand == null)
+                {
+                    _switchMenuCommand = new CommandHandler(((obj) =>
+                    {
+                        this.OpenMenu = !this.OpenMenu;
+                    }));
+                }
+                return _switchMenuCommand;
+            }
+            set { _switchMenuCommand = value; }
+        }
         #endregion
 
 
@@ -124,12 +172,14 @@ namespace Common.ViewModels
 
         public MainPageDataViewModel()
         {
+            //this.LoadingState = LoadingStates.Loading;
             if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
                 GenerateDummyData();
             else
                 FilterTextAsync();
 
             this.Configurations = new ConfigurationsViewModel();
+            
         }
 
         #endregion
@@ -150,6 +200,8 @@ namespace Common.ViewModels
             });
             if (ReadModels.Count > 0)
                 this.SelectedRead = ReadModels.First();
+
+            this.LoadingState = LoadingStates.Loaded;
         }
 
         #endregion

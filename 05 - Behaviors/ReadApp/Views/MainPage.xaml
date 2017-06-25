@@ -58,55 +58,156 @@
 
 
     <Grid Background="#FFFFFF">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="LoadingState">
+                <VisualState x:Name="Loading">
+                    <Storyboard>
+                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="stackPanel1" d:IsOptimized="True"/>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Loaded">
+                    <Storyboard>
+                        <DoubleAnimation Duration="0:0:1" To="-550" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetY)" Storyboard.TargetName="textBlock1" d:IsOptimized="True">
+                            <DoubleAnimation.EasingFunction>
+                                <BackEase Amplitude="0.2" EasingMode="EaseIn"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Duration="0:0:0.494" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="progressBar" d:IsOptimized="True"/>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(ProgressBar.IsIndeterminate)" Storyboard.TargetName="progressBar">
+                            <DiscreteObjectKeyFrame KeyTime="0:0:0.494">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <x:Boolean>False</x:Boolean>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <DoubleAnimation Duration="0:0:1" To="0.4" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="textBlock1" d:IsOptimized="True"/>
+                        <DoubleAnimation Duration="0:0:1" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="grid" d:IsOptimized="True"/>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="grid">
+                            <DiscreteObjectKeyFrame KeyTime="0:0:1">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Canvas.ZIndex)" Storyboard.TargetName="grid">
+                            <DiscreteObjectKeyFrame KeyTime="0:0:1">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <x:Int32>0</x:Int32>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <!--<DoubleAnimation Duration="0:0:1" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="commandBar" d:IsOptimized="True">
+                            <DoubleAnimation.EasingFunction>
+                                <CircleEase EasingMode="EaseOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>-->
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Error">
+                    <VisualState.Setters>
+                        <Setter Target="textBlock1.(TextBlock.FontWeight)">
+                            <Setter.Value>
+                                <FontWeight>Bold</FontWeight>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Target="textBlock1.(TextBlock.Text)" Value="Ocurrio un Error!!"/>
+                    </VisualState.Setters>
+                    <Storyboard>
+                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="stackPanel1" d:IsOptimized="True"/>
+                        <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="progressBar" d:IsOptimized="True"/>
+                        <ColorAnimation Duration="0" To="#FF931616" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="textBlock1" d:IsOptimized="True"/>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="ScrenStates">
+                <VisualState x:Name="Big">
+                    <VisualState.Setters>
+                        <Setter Target="splitView.(SplitView.IsPaneOpen)" Value="True"/>
+                        <Setter Target="splitView.(SplitView.DisplayMode)" Value="Inline"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1150"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Small">
+                    <VisualState.Setters>
+                        <Setter Target="splitView.(SplitView.DisplayMode)" Value="Overlay"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="320"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0">
-            <Grid Background="#FF1D3F58">
+        <SplitView x:Name="splitView" BorderThickness="0" Grid.ColumnSpan="2" DisplayMode="Inline" IsPaneOpen="{Binding OpenMenu, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <SplitView.Pane>
+                <Grid Grid.Column="0">
+                    <Grid Background="#FF1D3F58">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="0*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <ListView x:Name="listView" ItemTemplate="{StaticResource RememberModelTemplate}"  ItemsSource="{Binding ReadModels}" Grid.Row="1" SelectedItem="{Binding SelectedRead, Mode=TwoWay}" Background="#FF1D3F58" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+                        </ListView>
+                        <TextBox x:Name="textBox" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10,10,1,8" TextWrapping="Wrap"  d:LayoutOverrides="Height, LeftMargin, RightMargin, TopMargin, BottomMargin" PlaceholderText="Buscar ..." Background="#FF1D3F58" Foreground="White" SelectionHighlightColor="White">
+                        </TextBox>
+                    </Grid>
+                </Grid>
+            </SplitView.Pane>
+            <Grid Grid.Column="1"  Margin="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="0*"/>
+                    <ColumnDefinition Width="13*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <ListView x:Name="listView" ItemTemplate="{StaticResource RememberModelTemplate}"  ItemsSource="{Binding ReadModels}" Grid.Row="1" SelectedItem="{Binding SelectedRead, Mode=TwoWay}" Background="#FF1D3F58" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
-                </ListView>
-                <TextBox x:Name="textBox" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10,10,1,8" TextWrapping="Wrap"  d:LayoutOverrides="Height, LeftMargin, RightMargin, TopMargin, BottomMargin" PlaceholderText="Buscar ..." Background="#FF1D3F58" Foreground="White" SelectionHighlightColor="White">
-                </TextBox>
+                <Grid Grid.Row="0" Grid.Column="0" BorderThickness="0,0,0,2"   >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Ellipse  Grid.Column="0" x:Name="Imangen" Margin="20 20 20 20" Stroke="Black" d:LayoutOverrides="TopPosition, BottomPosition" HorizontalAlignment="Right" Width="150" Height="150" >
+                        <Ellipse.Fill>
+                            <ImageBrush Stretch="Fill" ImageSource="{Binding SelectedRead.Picture}"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <StackPanel  Grid.Column="1"   VerticalAlignment="Center" Margin="0 30 0 0"  >
+                        <TextBlock Text="Descripción"  TextWrapping="Wrap" ></TextBlock>
+                        <TextBlock Text="{Binding SelectedRead.Description}" TextWrapping="Wrap" ></TextBlock>
+                    </StackPanel>
+                </Grid >
+                <ScrollViewer  x:Name="scrollViewer" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,-0.333,0,0" d:LayoutOverrides="TopPosition, BottomPosition">
+                    <ItemsControl ItemTemplate="{StaticResource ReadEventsTemplate}" ItemsSource="{Binding SelectedRead.Events}">
+                        <ItemsControl.ItemContainerTransitions>
+                            <TransitionCollection>
+                                <EntranceThemeTransition FromVerticalOffset="0" FromHorizontalOffset="200" IsStaggeringEnabled="True"/>
+                            </TransitionCollection>
+                        </ItemsControl.ItemContainerTransitions>
+                    </ItemsControl>
+                </ScrollViewer>
+                <Grid Grid.RowSpan="2"/>
             </Grid>
-        </Grid>
-        <Grid Grid.Column="1"  Margin="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="13*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Grid.Column="0" BorderThickness="0,0,0,2"   >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Ellipse  Grid.Column="0" x:Name="Imangen" Margin="20 20 20 20" Stroke="Black" d:LayoutOverrides="TopPosition, BottomPosition" HorizontalAlignment="Right" Width="150" Height="150" >
-                    <Ellipse.Fill>
-                        <ImageBrush Stretch="Fill" ImageSource="{Binding SelectedRead.Picture}"/>
-                    </Ellipse.Fill>
-                </Ellipse>
-                <StackPanel Grid.Column="1"   VerticalAlignment="Center" Margin="0 30 0 0"  >
-                    <TextBlock Text="Descripción"  TextWrapping="Wrap" ></TextBlock>
-                    <TextBlock Text="{Binding SelectedRead.Description}" TextWrapping="Wrap" ></TextBlock>
-                </StackPanel>
-            </Grid >
-            <ScrollViewer  x:Name="scrollViewer" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,-0.333,0,0" d:LayoutOverrides="TopPosition, BottomPosition">
-                <ItemsControl ItemTemplate="{StaticResource ReadEventsTemplate}" ItemsSource="{Binding SelectedRead.Events}">
-                </ItemsControl>
-            </ScrollViewer>
-            <Grid Grid.RowSpan="2"/>
-        </Grid>
+        </SplitView>
+
+<Grid x:Name="grid" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition" Grid.ColumnSpan="2" Background="#FF2E2E2E" Opacity="0.9" Canvas.ZIndex="1" d:IsHidden="True">
+    <StackPanel x:Name="stackPanel1" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center">
+        <TextBlock x:Name="textBlock1" Style="{StaticResource HeaderTextBlockStyle}" TextWrapping="Wrap" Text="Cargando ...">
+            <TextBlock.Projection>
+                <PlaneProjection/>
+            </TextBlock.Projection>
+        </TextBlock>
+        <ProgressBar x:Name="progressBar" Height="10" VerticalAlignment="Stretch" IsIndeterminate="True" Margin="0,8,0,0" FontSize="22"/>
+    </StackPanel>
+</Grid>
     </Grid>
 
 
@@ -131,7 +232,7 @@
             <CommandBar.Content>
                 <Grid/>
             </CommandBar.Content>
-            <!--<AppBarButton x:Name="appBarButton1" HorizontalAlignment="Stretch" Icon="AlignCenter" Label="Menu" VerticalAlignment="Stretch" d:LayoutOverrides="Height" Command="{Binding SwitchMenuCommand}" ></AppBarButton>-->
+            <AppBarButton x:Name="appBarButton1" HorizontalAlignment="Stretch" Icon="AlignCenter" Label="Menu" VerticalAlignment="Stretch" d:LayoutOverrides="Height" Command="{Binding SwitchMenuCommand}" ></AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>
 
@@ -147,16 +248,6 @@
 
 
 
-    <!--<Grid x:Name="grid" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition" Grid.ColumnSpan="2" Background="#FF2E2E2E" Opacity="0.9" Canvas.ZIndex="1" d:IsHidden="True">
-            <StackPanel x:Name="stackPanel1" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center">
-                <TextBlock x:Name="textBlock1" Style="{StaticResource HeaderTextBlockStyle}" TextWrapping="Wrap" Text="Cargando ...">
-                    <TextBlock.Projection>
-                        <PlaneProjection/>
-                    </TextBlock.Projection>
-                </TextBlock>
-                <ProgressBar x:Name="progressBar" Height="10" VerticalAlignment="Stretch" IsIndeterminate="True" Margin="0,8,0,0" FontSize="22"/>
-            </StackPanel>
-        </Grid>-->
 
 
 

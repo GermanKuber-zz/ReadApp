@@ -101,6 +101,7 @@ namespace Common.ViewModels
                     new PropertyChangedEventArgs(nameof(Filter)));
             }
         }
+
         public LoadingStates LoadingState
         {
             get { return _loadingState; }
