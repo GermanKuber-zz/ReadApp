@@ -1,4 +1,5 @@
 # ReadApp
+![alt text](https://ibb.co/dX3Dsk)
 Aplicación de ejemplo UWP para la [NetConfAr](http://netconfar.com/)
 
 [01 - Aplicación inicial](https://github.com/GermanKuber/ReadApp/tree/master/01%20-%20Inicial) - Contiene el esqueleto de la aplicación inicial sobre la cual se desarrollara el resto del workshop.
@@ -13,3 +14,6 @@ Aplicación de ejemplo UWP para la [NetConfAr](http://netconfar.com/)
 
 
 ![alt text](https://www.visualstudio.com/wp-content/uploads/2016/04/windows-universal-apps-3-562x309@2x.png)
+
+
+
