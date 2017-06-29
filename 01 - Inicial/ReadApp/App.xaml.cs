@@ -35,14 +35,14 @@ namespace ReadApp
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             //TODO : Ejecuta el registro del servicio
-            ReadAppBackgroundTask.Register();
-            //install Voice Commands
-            var vcdFile = await StorageFile.GetFileFromApplicationUriAsync(
-                 new Uri("ms-appx:///VoiceCommandDefinition.xml"));
+            //ReadAppBackgroundTask.Register();
+            ////install Voice Commands
+            //var vcdFile = await StorageFile.GetFileFromApplicationUriAsync(
+            //     new Uri("ms-appx:///VoiceCommandDefinition.xml"));
 
-            await
-                VoiceCommandDefinitionManager
-                    .InstallCommandDefinitionsFromStorageFileAsync(vcdFile);
+            //await
+            //    VoiceCommandDefinitionManager
+            //        .InstallCommandDefinitionsFromStorageFileAsync(vcdFile);
 #if DEBUG
             if (Debugger.IsAttached)
             {

@@ -20,7 +20,7 @@ namespace Common.ViewModels
 
         private ReadRepository _readRepository = new ReadRepository();
 
-        public ConfigurationsViewModel Configuration = new ConfigurationsViewModel();
+        public ConfigurationsViewModel Configurations { get; set; } = new ConfigurationsViewModel();
 
         #region Public Properties
 
@@ -100,8 +100,8 @@ namespace Common.ViewModels
 
         //    });
 
-        //    if (ReadModels != null && ReadModels.Count > 0)
-        //        this.SelectedRead = ReadModels.First();
+        ////    if (ReadModels != null && ReadModels.Count > 0)
+        ////        this.SelectedRead = ReadModels.First();
         //}
 
     }

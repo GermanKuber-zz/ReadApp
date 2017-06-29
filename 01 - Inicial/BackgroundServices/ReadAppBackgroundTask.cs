@@ -39,7 +39,7 @@ namespace BackgroundServices
 
                 ToastNotifier notifier = ToastNotificationManager.CreateToastNotifier();
                 XmlDocument content = ToastNotificationManager.GetTemplateContent(
-                        ToastTemplateType.ToastImageAndText01);
+                        ToastTemplateType.ToastImageAndText02);
 
                 var texts = content.GetElementsByTagName("text");
 
@@ -48,7 +48,7 @@ namespace BackgroundServices
                 texts[1].InnerText = $"El evento {events.First().Title} , se realizara el dia  {events.First().Date.ToLocalTime()}";
 
                 var image = content.GetElementsByTagName("image");
-                image[0].InnerText = events.First().Image;
+                image[0].Attributes[1].InnerText = events.First().Image;
 
                 notifier.Show(new ToastNotification(content));
      

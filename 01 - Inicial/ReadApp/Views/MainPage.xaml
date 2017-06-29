@@ -30,12 +30,8 @@
                     <TextBlock x:Name="Date" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Date}" VerticalAlignment="Top" Foreground="#FFC31F1F" Margin="194,65,0,0"/>
                     <TextBlock x:Name="Text" HorizontalAlignment="Left" TextWrapping="Wrap"  Text="{Binding Text}" VerticalAlignment="Top" Margin="195,98,0,0" MaxHeight="60"/>
                     <AppBarButton 
-                          Command="{Binding DataContext.SendEmailCommand, ElementName=GridContext}"
-                                CommandParameter="{Binding}"   
                         x:Name="btnEmail" Content="Button" Icon="Mail" Height="54" HorizontalAlignment="Left" Margin="350,49,0,0" Label="Email" Style="{StaticResource AppBarButtonStyle1}" FontSize="19" d:LayoutOverrides="VerticalAlignment" Visibility="{Binding EmailVisibility, Mode=OneWay}"/>
-                    <AppBarButton  
-                                Command="{Binding DataContext.AddNoticeToCommand, ElementName=GridContext}"
-                                CommandParameter="{Binding}"   
+                    <AppBarButton   
                                 x:Name="btnCalendar" Content="Button" Icon="Calendar" Height="50" HorizontalAlignment="Left" d:LayoutOverrides="VerticalAlignment" Margin="430,50,0,0" Visibility="{Binding EmailVisibility, Mode=OneWay}"/>
 
                 </Grid>
@@ -45,12 +41,6 @@
     <!--<Page.BottomAppBar>
         --><!--Barra donde se muestran las opciones de mostrar menu y de configuración--><!--
         <CommandBar x:Name="commandBar" Margin="0,17,0,0" RenderTransformOrigin="0.5,0.5" >
-            <CommandBar.RenderTransform>
-                <CompositeTransform TranslateY="45"/>
-            </CommandBar.RenderTransform>
-            --><!--<CommandBar.Projection>
-                <PlaneProjection GlobalOffsetY="45"/>
-            </CommandBar.Projection>--><!--
             <CommandBar.SecondaryCommands>
                 <AppBarToggleButton x:Name="appBarToggleButton" Label="Notificaciones" IsChecked="{Binding Configurations.NotificationsEnabled, Mode=TwoWay}" DataContext="{Binding}"/>
                 <AppBarToggleButton x:Name="appBarToggleButton1" Label="Live" IsChecked="{Binding Configurations.LiveTileEnabled, Mode=TwoWay}" DataContext="{Binding}"/>
