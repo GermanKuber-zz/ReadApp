@@ -1,7 +1,7 @@
 # ReadApp
 ![alt text](https://image.ibb.co/fxwoQ5/Screenshot_at_Jun_29_11_03_47.png)
 
-Aplicación de ejemplo UWP para la [NetConfAr](http://netconfar.com/)
+Aplicación de ejemplo Universal Windows Platform para la [.NET Conf AR v2017](http://netconfar.com/)
 
 [01 - Aplicación inicial](https://github.com/GermanKuber/ReadApp/tree/master/01%20-%20Inicial) - Contiene el esqueleto de la aplicación inicial sobre la cual se desarrollara el resto del workshop.
 
